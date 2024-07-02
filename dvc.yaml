@@ -1,0 +1,56 @@
+stages:
+
+  train_lin_reg:
+    cmd: >-
+      python train_models.py
+      ${lin_reg.model}
+      ${data.source}
+      ${lin_reg.t_size}
+      ${lin_reg.drop_rows}
+    deps:
+    - train_models.py
+    - ${data.source}
+    metrics:
+    - dvclive/lin_reg/metrics.json:
+        cache: false
+    outs:
+    - models/lin_reg:
+        cache: false
+        persist: true
+
+  collect_lin_reg_metrics:
+    cmd: >-
+      python collect_metrics.py
+      dvclive/lin_reg/metrics.json
+      models/lin_reg
+    deps:
+    - dvclive/lin_reg/metrics.json
+    - models/lin_reg
+
+
+  train_xgb_reg:
+    cmd: >-
+      python train_models.py
+      ${xgb_reg.model}
+      ${data.source}
+      ${xgb_reg.t_size}
+      ${xgb_reg.drop_rows}
+    deps:
+    - train_models.py
+    - ${data.source}
+    metrics:
+    - dvclive/xgb_reg/metrics.json:
+        cache: false
+    outs:
+    - models/xgb_reg/:
+        cache: false
+        persist: true
+
+  collect_xgb_reg_metrics:
+    cmd: >-
+      python collect_metrics.py
+      dvclive/xgb_reg/metrics.json
+      models/xgb_reg
+    deps:
+    - dvclive/xgb_reg/metrics.json
+    - models/xgb_reg

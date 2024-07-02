@@ -1,0 +1,12 @@
+data:
+  source: "./data/diamonds.csv"
+
+lin_reg:
+  model: "lin_reg"
+  t_size: 0.2
+  drop_rows: True
+
+xgb_reg:
+  model: "xgb_reg"
+  t_size: 0.2
+  drop_rows: True
