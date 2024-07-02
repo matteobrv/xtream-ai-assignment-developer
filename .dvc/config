@@ -1,0 +1,4 @@
+[core]
+    remote = localremote
+['remote "localremote"']
+    url = /xtream-ai-assignment-developer/.dvc/localremote
