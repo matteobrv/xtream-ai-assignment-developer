@@ -67,5 +67,23 @@ Observability is key. Save every request and response made to the APIs to a **pr
 
 ---
 
-## How to run
-Please fill this section as part of the assignment.
+## How to run 🦎🦫
+My solution focuses on [Challenge 1](#challenge-1) and [Challenge 2](#challenge-2) by providing an extensible and easy to read DVC pipeline. [DVC](https://dvc.org/doc) is a handy tool that allows to implement, execute and track a sequence of data processing stages that produce a final result as well as, potentially, several intermediate ones.
+
+### Requirements setup
+This pipeline runs on **Python 3.10+** and all of the depencencies are managed with [Poetry](https://python-poetry.org/docs/), a dependency management and packaging tool. After installing Poetry following one of the recommended methods, simply run `poetry install` from within the base project directory to setup your environment.
+
+### Usage
+To run the pipeline simply `cd` into the base project directory and run `dvc exp run`. This will execute all of the stages defined inside of `dvc.yaml` in order and cache both their dependencies and outputs, if not otherwise specified.
+
+For each model type (e.g. `LinearRegression` and `XGBRegressor`) the pipeline produces two kinds of outputs which are stored into the `models` directory:
+- a pickled artifact of each trained model;
+- a single `metrics.csv` file storing the evaluation scores of all trained models.
+
+After running the pipeline several times with different parameters and or training data, DVC allows to generate interactive plots for each of the models' metrics. Plots are stored as html files into the `dvc_plots` directory. For example, to generate a plot of the R2 score for a `LinearRegression` instance across several experiments you can run
+
+```shell
+dvc plots show models/lin_reg/metrics.csv -y R2
+```
+
+where `models/lin_reg/metrics.csv` is the path to the metrics file for the model type we want and `-y R2` tells DVC which metric to put on the y-axis. On the x-axis we are going to have all of the different pipeline runs we carried out so far i.e. our experiments.
